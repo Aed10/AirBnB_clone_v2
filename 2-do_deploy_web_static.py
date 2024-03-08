@@ -5,6 +5,7 @@ from os.path import exists
 
 
 def do_deploy(archive_path):
+    """Distributes an archive to your web servers"""
     if not exists(archive_path):
         return False
 
