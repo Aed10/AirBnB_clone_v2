@@ -33,3 +33,4 @@ sed -i '/location \/ {/a \    location /hbnb_static {\n        alias /data/web_s
 
 # Restart nginx to apply new modifications
 sudo systemctl restart nginx
+
