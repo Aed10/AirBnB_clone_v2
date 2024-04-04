@@ -25,6 +25,9 @@ echo "Hello World Test!" > /data/web_static/releases/test/index.html
 # Create a symbolic link to make 'test' the current version
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 
+# Give ownership of the /data/ folder to the ubuntu user and group
+chown -R ubuntu:ubuntu /data/
+
 # Configure Nginx to serve the static content
 sed -i '/location \/ {/a \    location /hbnb_static {\n        alias /data/web_static/current/;\n    }' /etc/nginx/sites-available/default
 
