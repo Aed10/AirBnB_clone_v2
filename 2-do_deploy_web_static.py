@@ -3,6 +3,10 @@
 from fabric.api import env, put, run
 from os.path import exists
 
+env.hosts = ["35.174.184.151", "54.157.180.166"]
+env.user = "ubuntu"
+env.key_filename = "~/.ssh/id_rsa"
+
 
 def do_deploy(archive_path):
     """Distributes an archive to your web servers"""
@@ -10,9 +14,7 @@ def do_deploy(archive_path):
         return False
 
     try:
-        env.hosts = ["35.174.184.151", "54.157.180.166"]
-        env.user = "ubuntu"
-        env.key_filename = "~/.ssh/id_rsa"
+
         # Set the remote path where the archive will be stored
         remote_path = "/tmp/{}".format(archive_path.split("/")[-1])
         # Upload the archive to the remote server

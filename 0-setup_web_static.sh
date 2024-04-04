@@ -15,23 +15,18 @@ sudo apt-get -y update && sudo apt-get -y upgrade
 # Install nginx
 sudo apt-get -y install nginx
 
-# Create required directories
-sudo mkdir -p /data/web_static/releases/test/
-sudo mkdir -p /data/web_static/shared/
+# Create necessary directories
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
 
-# Display a test page
-sudo bash -c 'echo "Hello from ALX" | tee /data/web_static/releases/test/index.html > /dev/null'
+# Create a test index.html file
+echo "Hello World Test!" > /data/web_static/releases/test/index.html
 
-# Create a symbolic link
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+# Create a symbolic link to make 'test' the current version
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-# Give the ubuntu user ownership of the /data/ directory
-sudo chown -R ubuntu:ubuntu /data/
+# Configure Nginx to serve the static content
+sed -i '/location \/ {/a \    location /hbnb_static {\n        alias /data/web_static/current/;\n    }' /etc/nginx/sites-available/default
 
-# Update the Nginx configuration to serve the static files from the /hbnb_static/ location
-if ! grep -q "^location /hbnb_static/" /etc/nginx/sites-available/default; then
-    sudo sed -i '/^server {/a \ \n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default
-fi
-
-# Restart the nginx service
-sudo service nginx restart
+# Restart nginx to apply new modifications
+sudo systemctl restart nginx
