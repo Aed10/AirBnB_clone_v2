@@ -1,13 +1,5 @@
 #!/usr/bin/env bash
 # This script sets up your web servers for the deployment of web_static.
-# It does the following:
-# - Install nginx
-# - Create some directories
-# - Display a test page
-# - Create a symbolic link
-# - Give the ubuntu user ownership of a directory
-# - Update the Nginx configuration to serve the static files
-# - Restart the nginx service
 
 # Update and upgrade the system
 sudo apt-get -y update && sudo apt-get -y upgrade
