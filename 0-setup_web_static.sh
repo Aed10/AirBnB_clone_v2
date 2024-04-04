@@ -21,7 +21,7 @@ ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown -R ubuntu:ubuntu /data/
 
 # Configure Nginx to serve the static content
-sed -i '/location \/ {/a \    location /hbnb_static {\n        alias /data/web_static/current/;\n    }' /etc/nginx/sites-available/default
+sed -i '/location \/ {/a \    location /hbnb_static {\n        alias /data/web_static/current;\n    }' /etc/nginx/sites-available/default
 
 # Restart nginx to apply new modifications
 sudo systemctl restart nginx
