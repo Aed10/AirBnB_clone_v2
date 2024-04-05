@@ -4,15 +4,16 @@ from os.path import exists
 
 env.hosts = ["18.206.198.24", "54.236.43.182"]
 
-""" Fabric script that distributes an archive to your web servers, using the function do_deploy
- The function do_deploy must return False if the file at the path archive_path doesn’t exist
- Returns True if all operations have been done correctly, otherwise returns False
- All remote commands must be executed on both of web servers, the function do_deploy must use the following
-"""
-
 
 def do_deploy(archive_path):
-    # Call do_pack if no archive_path is provided
+    """Distributes an archive to a web server.
+
+    Args:
+        archive_path (str): The path of the archive to distribute.
+    Returns:
+        If the file doesn't exist at archive_path or an error occurs - False.
+        Otherwise - True.
+    """
     if not exists(archive_path):
         return False
 
