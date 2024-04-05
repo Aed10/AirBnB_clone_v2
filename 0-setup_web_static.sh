@@ -22,12 +22,15 @@ ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown -R ubuntu:ubuntu /data/
 
 # Configure Nginx to serve the static content
-# shellcheck disable=SC2016
-sed -i '/}$/i \
-location /hbnb_static/ { \
-    alias /data/web_static/current/; \
-    try_files $uri $uri/ =404; \
-}' /etc/nginx/sites-available/default
+echo "server {
+    listen 80;
+    listen [::]:80;
+    server_name localhost;
+    location / {
+        alias /data/web_static/current/;
+        index index.html index.htm;
+    }
+}" > /etc/nginx/sites-available/default
 
 # Restart nginx to apply new modifications
 service nginx restart
