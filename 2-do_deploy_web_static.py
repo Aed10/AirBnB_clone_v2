@@ -36,10 +36,8 @@ def do_deploy(archive_path):
 
         # Move the contenant outside 'web_static' folder
         run(
-            run(
-                f"mv /data/web_static/releases/{file}/web_static/* "
-                f"/data/web_static/releases/{file}/"
-            )
+            f"mv /data/web_static/releases/{file}/web_static/* "
+            f"/data/web_static/releases/{file}/"
         )
 
         # Delete web_static folder
