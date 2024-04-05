@@ -5,19 +5,8 @@ from datetime import datetime
 import os
 
 env.hosts = ["18.206.198.24", "54.236.43.182"]
-
-
-def do_pack():
-    """Function to pack web_static files into .tgz file"""
-    try:
-        if not os.path.exists("versions"):
-            os.makedirs("versions")
-        date = datetime.now().strftime("%Y%m%d%H%M%S")
-        file = "versions/web_static_{}.tgz".format(date)
-        local("tar -cvzf {} web_static".format(file))
-        return file
-    except Exception as e:
-        return None
+env.user = "ubuntu"
+env.key_filename = "~/.ssh/id_rsa"
 
 
 def do_deploy(archive_path):
