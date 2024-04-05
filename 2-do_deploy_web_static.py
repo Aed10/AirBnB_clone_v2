@@ -38,13 +38,13 @@ def do_deploy(archive_path):
         # Remove the archive from the server's /tmp/ directory
         run(f"rm /tmp/{file}.tgz")
 
-        # Move the contenant outside 'web_static' folder
+        # move contents into host web_static
         run(
             f"mv /data/web_static/releases/{file}/web_static/* "
             f"/data/web_static/releases/{file}/"
         )
 
-        # Delete web_static folder
+        # remove extraneous web_static dir
         run(f"rm -rf /data/web_static/releases/{file}/web_static")
         # Delete the current symbolic link
         run("rm -f /data/web_static/current")
@@ -54,6 +54,6 @@ def do_deploy(archive_path):
             f"ln -s /data/web_static/releases/{file}/ /data/web_static/current"
         )
 
-        return True
     except Exception as e:
         return False
+    return True
