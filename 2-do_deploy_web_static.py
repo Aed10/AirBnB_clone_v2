@@ -9,6 +9,19 @@ env.user = "ubuntu"
 env.key_filename = "~/.ssh/id_rsa"
 
 
+def do_pack():
+    """Function to pack web_static files into .tgz file"""
+    try:
+        if not os.path.exists("versions"):
+            os.makedirs("versions")
+        date = datetime.now().strftime("%Y%m%d%H%M%S")
+        file = "versions/web_static_{}.tgz".format(date)
+        local("tar -cvzf {} web_static".format(file))
+        return file
+    except Exception as e:
+        return None
+
+
 def do_deploy(archive_path):
     """Distributes an archive to a web server.
 
@@ -24,13 +37,12 @@ def do_deploy(archive_path):
     try:
         # Extract the filename without the extension and the path
         file = archive_path.split("/")[-1].split(".")[0]
-        remote_path = f"/tmp/{file}"
 
         # Upload the archive to the /tmp/ directory on the server
         put(archive_path, "/tmp/")
 
         # Create the directory where the archive will be unpacked
-        run(f"mkdir -p /data/web_static/releases/{file}")
+        run(f"mkdir -p /data/web_static/releases/{file}/")
 
         # Unpack the archive
         run(f"tar -xzvf /tmp/{file}.tgz -C /data/web_static/releases/{file}/")
@@ -52,6 +64,22 @@ def do_deploy(archive_path):
         # Create a new symbolic link
         run(
             f"ln -s /data/web_static/releases/{file}/ /data/web_static/current"
+        )
+
+        # Locally:
+        local(
+            f"tar -cvzf versions/{file}.tgz C "
+            f"/data/web_static/releases/{file}/"
+        )
+        local(
+            f"mv /data/web_static/releases/{file}/web_static/* "
+            f"/data/web_static/releases/{file}/"
+        )
+        # remove extraneous web_static dir
+        local(f"rm -rf /data/web_static/releases/{file}/web_static")
+        local(
+            f"ln -s /data/web_static/releases/{file} "
+            f"/data/web_static/current"
         )
 
     except Exception as e:
