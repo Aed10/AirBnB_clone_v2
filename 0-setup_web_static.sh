@@ -23,12 +23,29 @@ chown -R ubuntu:ubuntu /data/
 
 # Configure Nginx to serve the static content
 echo "server {
-    listen 80;
-    listen [::]:80;
-    server_name localhost;
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By $HOSTNAME;
+    root /var/www/html;
+    index index.html index.htm;
+    server_name _;
+
+    error_page 404 /404.html;
+
+    location /404 {
+        internal;
+    }
+
     location / {
+        try_files $uri $uri =404;
+    }
+
+    location /hbnb_static/ {
         alias /data/web_static/current/;
-        index index.html index.htm;
+    }
+
+    location /redirect_me/ {
+        return 301 https://www.youtube.com/watch?v=9t9Mp0BGnyI;
     }
 }" > /etc/nginx/sites-available/default
 
