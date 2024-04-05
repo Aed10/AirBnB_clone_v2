@@ -2,7 +2,8 @@
 # This script sets up your web servers for the deployment of web_static.
 
 # Update and upgrade the system
-sudo apt-get -y update && sudo apt-get -y upgrade
+sudo apt-get update
+sudo apt-get -y upgrade
 
 # Install nginx
 sudo apt-get -y install nginx
@@ -29,4 +30,4 @@ location /hbnb_static/ { \
 }' /etc/nginx/sites-available/default
 
 # Restart nginx to apply new modifications
-sudo systemctl restart nginx
+service nginx restart
