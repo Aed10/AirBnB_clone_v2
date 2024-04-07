@@ -23,6 +23,8 @@ def do_clean(number=0):
     files = local("ls -1t versions", capture=True).split("\n")
 
     # Remove all but the most recent archives
+    if number == 0:
+        number = 1
     for file in files[number:]:
         local("rm versions/{}".format(file))
 
