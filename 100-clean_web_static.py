@@ -4,7 +4,7 @@ from os.path import exists
 from datetime import datetime
 import os
 
-env.hosts = [""]
+env.hosts = ["18.206.198.24", "54.236.43.182"]
 env.user = "ubuntu"
 env.key_filename = "~/.ssh/id_rsa"
 
