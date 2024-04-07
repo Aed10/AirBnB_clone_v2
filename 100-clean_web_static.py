@@ -20,8 +20,8 @@ def do_clean(number=0):
         return
 
     # Get a list of all files in the versions directory
-    files = local("ls -1t versions", capture=True).split("\n")
+    files = run("ls -1t versions", capture=True).split("\n")
 
     # Remove all but the most recent archives
     for file in files[number:]:
-        local("rm versions/{}".format(file))
+        run("rm versions/{}".format(file))
