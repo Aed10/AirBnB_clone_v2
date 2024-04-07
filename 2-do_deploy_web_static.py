@@ -42,6 +42,31 @@ def do_deploy(archive_path):
         put(archive_path, "/tmp/")
 
         # Create the directory where the archive will be unpacked
+        local(f"mkdir -p /data/web_static/releases/{file}/")
+
+        # Unpack the archive
+        local(f"tar -xzvf {archive_path} -C /data/web_static/releases/{file}/")
+
+        # Remove the archive
+        local(f"rm {archive_path}")
+
+        # Move contents into host web_static
+        local(
+            f"mv /data/web_static/releases/{file}/web_static/* "
+            f"/data/web_static/releases/{file}/"
+        )
+
+        # Remove extraneous web_static dir
+        local(f"rm -rf /data/web_static/releases/{file}/web_static")
+
+        # Delete the current symbolic link
+        local("rm -f /data/web_static/current")
+
+        # Create a new symbolic link
+        local(
+            f"ln -s /data/web_static/releases/{file}/ /data/web_static/current"
+        )
+        # Create the directory where the archive will be unpacked
         run(f"mkdir -p /data/web_static/releases/{file}/")
 
         # Unpack the archive
