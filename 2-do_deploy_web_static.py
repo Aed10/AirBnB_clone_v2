@@ -22,7 +22,7 @@ def do_pack():
         return None
 
 
-def do_deploy(archive_path):
+def do_deploy(archive_path=do_pack()):
     """Distributes an archive to a web server.
 
     Args:
@@ -37,9 +37,6 @@ def do_deploy(archive_path):
     try:
         # Extract the filename without the extension and the path
         file = archive_path.split("/")[-1].split(".")[0]
-
-        # Upload the archive to the /tmp/ directory on the server
-        put(archive_path, "/tmp/")
 
         # Create the directory where the archive will be unpacked
         local(f"mkdir -p /data/web_static/releases/{file}/")
@@ -66,6 +63,9 @@ def do_deploy(archive_path):
         local(
             f"ln -s /data/web_static/releases/{file}/ /data/web_static/current"
         )
+
+        # Upload the archive to the /tmp/ directory on the server
+        put(archive_path, "/tmp/")
         # Create the directory where the archive will be unpacked
         run(f"mkdir -p /data/web_static/releases/{file}/")
 
