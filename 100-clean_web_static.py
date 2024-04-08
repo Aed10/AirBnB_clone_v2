@@ -18,6 +18,9 @@ def do_clean(number=0):
     if number < 0:
         return
 
+    elif number == 0 or number == 1:
+        number = 1
+
     # Get a list of all files in the versions directory
     files = local("ls -1t versions", capture=True).split("\n")
 
