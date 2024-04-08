@@ -25,9 +25,9 @@ def do_clean(number=0):
     files = local("ls -1t versions", capture=True).split("\n")
 
     # Remove all but the most recent archives
-    for file in files[number - 1 :]:
+    for file in files[number:]:
         local("rm versions/{}".format(file))
 
     files = run("ls -1t /data/web_static/releases").split("\n")
-    for file in files[number - 1 :]:
+    for file in files[number:]:
         run("rm -rf /data/web_static/releases/{}".format(file))
